@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{B9B1C430-2798-FF06-2D78-3D0C22FB02F9}</ProjectGuid>
+    <ProjectGuid>{17BB7AF0-A1AD-DCE4-09CE-1D3A3635465B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -54,6 +54,8 @@
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Tower\Projectile.cs" />
+     <Compile Include="Assets\Scripts\Tower\Tower.cs" />
      <Compile Include="Assets\Scripts\Tower\TowerBtn.cs" />
      <Compile Include="Assets\Scripts\Tower\TowerManager.cs" />
  <Reference Include="UnityEngine.UI">

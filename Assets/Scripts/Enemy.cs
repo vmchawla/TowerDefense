@@ -15,7 +15,7 @@ public class Enemy : MonoBehaviour
 
 	void Start ()
 	{
-
+        GameManager.Instance.registerEnemy(this);
 	    enemy = GetComponent<Transform>();
 
 	}
@@ -49,8 +49,8 @@ public class Enemy : MonoBehaviour
             target += 1;
         } else if (other.tag == "Finish")
         {
-            Destroy(gameObject);
-            GameManager.Instance.removeEnemyFromScreen();
+            print(this.gameObject.name);
+            GameManager.Instance.unregisterEnemy(this);
         }
     }
   
