@@ -7,23 +7,37 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform exitPoint;
     [SerializeField] private Transform[] wayPoints;
     [SerializeField] private float navigationUpdate;
+    [SerializeField] private float healthPoints;
 
     private int target = 0;
     private Transform enemy;
     private float navigationTime = 0;
+    private bool isDead = false;
+    private Collider2D enemyCollider;
+    private Animator anim;
+
+    public bool IsDead
+    {
+        get
+        {
+            return isDead;
+        }
+    }
 
 
 	void Start ()
 	{
         GameManager.Instance.registerEnemy(this);
 	    enemy = GetComponent<Transform>();
+        enemyCollider = GetComponent<Collider2D>();
+        anim = GetComponent<Animator>();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-	    if (wayPoints != null)
+	    if (wayPoints != null && !isDead)
 	    {
 	        navigationTime += Time.deltaTime;
 	        if (navigationTime > navigationUpdate)
@@ -51,7 +65,35 @@ public class Enemy : MonoBehaviour
         {
             print(this.gameObject.name);
             GameManager.Instance.unregisterEnemy(this);
+        } else if (other.tag == "projectile")
+        {
+            Projectile newp = other.gameObject.GetComponent<Projectile>();
+            OnEnemyHit(newp.AttaackStrength);
+            Destroy(other.gameObject);
         }
+        
+    }
+
+    public void OnEnemyHit(int hitpoints)
+    {
+        print(healthPoints);
+        if ((healthPoints - hitpoints) > 0)
+        {
+            healthPoints -= hitpoints;
+            anim.Play("Hurt");
+        } else
+        {
+            anim.SetTrigger("didDie");
+            Die();
+        }
+        
+    }
+
+    public void Die()
+    {
+        isDead = true;
+        enemyCollider.enabled = false;
+
     }
   
 }
