@@ -37,7 +37,7 @@ public class TowerManager : Singleton<TowerManager>
 	    {
 	        followMouse();
 	    }
-	    if (Input.GetMouseButtonDown(1))
+	    if (Input.GetMouseButtonDown(1) || Input.GetKeyDown(KeyCode.Escape))
 	    {
 	         deSelectTower();
 	    }

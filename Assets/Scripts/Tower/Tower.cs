@@ -7,10 +7,11 @@ public class Tower : MonoBehaviour
 
     [SerializeField] private float timeBetweenAttacks;
     [SerializeField] private float attackRadius;
+    [SerializeField] private Projectile projectile;
 
-    private Projectile projectile;
     private Enemy targetEnemy = null;
     private float attackCounter;
+    private bool isAttacking = false;
 
 
     public float TimeBetweenAttacks
@@ -35,22 +36,42 @@ public class Tower : MonoBehaviour
 	    if (targetEnemy == null)
 	    {
 	        Enemy nearestEnemy = GetNearestEnemyInRange();
-	        if (nearestEnemy != null && Vector2.Distance(transform.position, nearestEnemy.transform.position) <=
+	        if (nearestEnemy != null && Vector2.Distance(transform.localPosition, nearestEnemy.transform.localPosition) <=
 	            attackRadius)
 	        {
 	            targetEnemy = nearestEnemy;
 	        }
-	    }
+	    } else
+        {
+            if (attackCounter <= 0)
+            {
+                isAttacking = true;
+                attackCounter = timeBetweenAttacks;
+            } else
+            {
+                isAttacking = false;
+            }
+            if (Vector2.Distance(transform.localPosition, targetEnemy.transform.localPosition) > attackRadius)
+            {
+                targetEnemy = null;
+            }
+        }
 
-	    if (Vector2.Distance(transform.position, targetEnemy.transform.position) > attackRadius)
-	    {
-	        targetEnemy = null;
-	    }
+
 	}
+
+    private void FixedUpdate()
+    {
+        if (isAttacking)
+        {
+            Attack();
+        }
+    }
 
     public void Attack()
     {
         Projectile newProjectile = Instantiate(projectile);
+        newProjectile.transform.localPosition = transform.localPosition;
 
         if (targetEnemy == null)
         {
@@ -59,21 +80,27 @@ public class Tower : MonoBehaviour
         else
         {
             //move projectile
-            MoveProjectile(newProjectile);
+            StartCoroutine(MoveProjectile(newProjectile));
         }
     }
 
     IEnumerator MoveProjectile(Projectile projectile)
     {
-        while (GetTargetDistance(targetEnemy) > 0.2f && this.projectile !=null && targetEnemy != null)
+        while (GetTargetDistance(targetEnemy) > 0.2f && projectile != null && targetEnemy != null)
         {
-            var dir = targetEnemy.transform.position - transform.position;
-            var andleDirection = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
-            projectile.transform.rotation = Quaternion.AngleAxis(andleDirection, Vect);
+            var dir = targetEnemy.transform.localPosition - transform.localPosition;
+            var andleDirection = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            projectile.transform.rotation = Quaternion.AngleAxis(andleDirection, Vector3.forward);
+            projectile.transform.localPosition = Vector2.MoveTowards(projectile.transform.localPosition, targetEnemy.transform.localPosition, 5f * Time.deltaTime);
+            yield return null;
+        }
+        if (projectile!= null | targetEnemy == null)
+        {
+            Destroy(projectile);
         }
     }
 
-    private float GetTargetDistance(Enemy thisEnemy)
+    private float GetTargetDistance(Enemy thisEnemy = null)
     {
         if (thisEnemy == null)
         {
@@ -83,7 +110,7 @@ public class Tower : MonoBehaviour
                 return 0f;
             }
         }
-        return Mathf.Abs(Vector2.Distance(transform.position, thisEnemy.transform.position));
+        return Mathf.Abs(Vector2.Distance(transform.localPosition, thisEnemy.transform.localPosition));
     }
 
     private List<Enemy> GetEnemiesInRange()
@@ -91,7 +118,7 @@ public class Tower : MonoBehaviour
         List<Enemy> enemiesInRange = new List<Enemy>();
         foreach (var enemy in GameManager.Instance.EnemyList) 
         {
-            if (Vector2.Distance(transform.position, enemy.transform.position) <= attackRadius)
+            if (Vector2.Distance(transform.localPosition, enemy.transform.localPosition) <= attackRadius)
             {
                 enemiesInRange.Add(enemy);
             }
@@ -105,9 +132,9 @@ public class Tower : MonoBehaviour
         float smallestDistance = float.PositiveInfinity;
         foreach (var enemy in GetEnemiesInRange())
         {
-            if (Vector2.Distance(transform.position, enemy.transform.position) < smallestDistance)
+            if (Vector2.Distance(transform.localPosition, enemy.transform.localPosition) < smallestDistance)
             {
-                smallestDistance = Vector2.Distance(transform.position, enemy.transform.position);
+                smallestDistance = Vector2.Distance(transform.localPosition, enemy.transform.localPosition);
                 nearestEnemy = enemy;
             }
         }

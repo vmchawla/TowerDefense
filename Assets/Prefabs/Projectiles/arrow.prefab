@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 752fafc5bb07d4d4bb68c50cf1f58361, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attaackStrength: 50
+  attackStrength: 50
   projectileType: 1
 --- !u!212 &212421783033074146
 SpriteRenderer:

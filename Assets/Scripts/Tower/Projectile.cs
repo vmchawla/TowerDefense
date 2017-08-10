@@ -12,14 +12,14 @@ public enum projectileType
 public class Projectile : MonoBehaviour
 {
 
-    [SerializeField] private int attaackStrength;
+    [SerializeField] private int attackStrength;
     [SerializeField] private projectileType projectileType;
 
     public int AttaackStrength
     {
         get
         {
-            return attaackStrength;
+            return attackStrength;
         }
     }
 
