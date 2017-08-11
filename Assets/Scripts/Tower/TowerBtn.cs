@@ -8,6 +8,7 @@ public class TowerBtn : MonoBehaviour
 
     [SerializeField] private GameObject towerObject;
     [SerializeField] private Sprite dragSprite;
+    [SerializeField] private int towerPrice;
 
     void Awake()
     {
@@ -28,6 +29,14 @@ public class TowerBtn : MonoBehaviour
         get
         {
             return dragSprite;
+        }
+    }
+
+    public int TowerPrice
+    {
+        get
+        {
+            return towerPrice;
         }
     }
 }

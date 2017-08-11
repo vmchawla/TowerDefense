@@ -86,7 +86,7 @@ public class Tower : MonoBehaviour
 
     IEnumerator MoveProjectile(Projectile projectile)
     {
-        while (GetTargetDistance(targetEnemy) > 0.2f && projectile != null && targetEnemy != null)
+        while (GetTargetDistance(targetEnemy) > 0.2f && projectile != null && targetEnemy != null && !targetEnemy.IsDead)
         {
             var dir = targetEnemy.transform.localPosition - transform.localPosition;
             var andleDirection = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;

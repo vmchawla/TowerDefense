@@ -33,8 +33,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1856473326809256}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,11 +51,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75d9f4f77e751794eab69138df46ce1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  totalWaves: 10
+  totalMoneyLbl: {fileID: 0}
+  currentWaveLbl: {fileID: 0}
+  totalEscapedLbl: {fileID: 0}
   spawnPoint: {fileID: 1402595108164310, guid: 53ebd61517d79a8419a5a9dc502dbb48, type: 2}
   enemies:
-  - {fileID: 1849073188088728, guid: 7d3ceff0ef82efe43b73bac695cb17c8, type: 2}
   - {fileID: 1725447492549392, guid: b1275405fec31964891376780007a0ba, type: 2}
+  - {fileID: 1849073188088728, guid: 7d3ceff0ef82efe43b73bac695cb17c8, type: 2}
   - {fileID: 1875168313859928, guid: 12f016f77559431418cc7aeeadf428ed, type: 2}
   maxEnemiesOnScreen: 8
   totalEnemies: 8
   enemiesPerSpawn: 1
+  spawnDelay: 0.5
+  playBtnLbl: {fileID: 0}
+  playBtn: {fileID: 0}
+  EnemyList: []

@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private Transform[] wayPoints;
     [SerializeField] private float navigationUpdate;
     [SerializeField] private float healthPoints;
+    [SerializeField] private int rewardAmt;
 
     private int target = 0;
     private Transform enemy;
@@ -27,11 +28,11 @@ public class Enemy : MonoBehaviour
 
 	void Start ()
 	{
-        GameManager.Instance.registerEnemy(this);
+        GameManager.Instance.RegisterEnemy(this);
 	    enemy = GetComponent<Transform>();
         enemyCollider = GetComponent<Collider2D>();
         anim = GetComponent<Animator>();
-
+        
 	}
 	
 	// Update is called once per frame
@@ -64,7 +65,10 @@ public class Enemy : MonoBehaviour
         } else if (other.tag == "Finish")
         {
             print(this.gameObject.name);
-            GameManager.Instance.unregisterEnemy(this);
+            GameManager.Instance.RoundEscaped += 1;
+            GameManager.Instance.TotalEscaped += 1;
+            GameManager.Instance.UnregisterEnemy(this);
+            GameManager.Instance.IsWaveOver();
         } else if (other.tag == "projectile")
         {
             Projectile newp = other.gameObject.GetComponent<Projectile>();
@@ -93,6 +97,9 @@ public class Enemy : MonoBehaviour
     {
         isDead = true;
         enemyCollider.enabled = false;
+        GameManager.Instance.TotalKilled += 1;
+        GameManager.Instance.AddMoney(rewardAmt);
+        GameManager.Instance.IsWaveOver();
 
     }
   
