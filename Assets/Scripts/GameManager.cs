@@ -17,7 +17,6 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private Text totalEscapedLbl;
     [SerializeField] private GameObject spawnPoint;
     [SerializeField] private GameObject[] enemies;
-    [SerializeField] private int maxEnemiesOnScreen;
     [SerializeField] private int totalEnemies = 3;
     [SerializeField] private int enemiesPerSpawn;
     [SerializeField] private float spawnDelay = 0.5f;
@@ -82,7 +81,7 @@ public class GameManager : Singleton<GameManager>
         {
             for (int i = 0; i < enemiesPerSpawn; i++)
             {
-                if (EnemyList.Count < maxEnemiesOnScreen)
+                if (EnemyList.Count < totalEnemies)
                 {
                     var newEnemy = Instantiate(enemies[0]);
                     newEnemy.transform.position = spawnPoint.transform.position;
@@ -117,11 +116,13 @@ public class GameManager : Singleton<GameManager>
     public void AddMoney(int amount)
     {
         totalMoney += amount;
+        totalMoneyLbl.text = totalMoney.ToString();
     }
 
-    public void subtractMoney(int amount)
+    public void SubtractMoney(int amount)
     {
         totalMoney -= amount;
+        totalMoneyLbl.text = totalMoney.ToString();
     }
 
     public void ShowMenu()
@@ -134,6 +135,7 @@ public class GameManager : Singleton<GameManager>
                 break;
             case gameStatus.next:
                 playBtnLbl.text = "Next Wave";
+                
                 break;
             case gameStatus.play:
                 playBtnLbl.text = "Play";
@@ -148,6 +150,9 @@ public class GameManager : Singleton<GameManager>
     public void IsWaveOver()
     {
         totalEscapedLbl.text = "Escaped " + TotalEscaped + "/10";
+        print("RoundEscpaed: "+ roundEscaped);
+        print("TotalKilled: "+ totalKilled);
+        print("Total Enemies " + totalEnemies);
         if ((roundEscaped + totalKilled) == totalEnemies)
         {
             SetCurrentGameState();
@@ -161,7 +166,7 @@ public class GameManager : Singleton<GameManager>
         if (totalEscaped >= 10)
         {
             currentState = gameStatus.gameover;
-        } else if (waveNumber == 0 || (totalKilled + roundEscaped) == 0)
+        } else if (waveNumber == 0 && (totalKilled + roundEscaped) == 0)
         {
             currentState = gameStatus.play;
         } else if (waveNumber >= totalWaves)
@@ -176,11 +181,19 @@ public class GameManager : Singleton<GameManager>
 
     public void PlayBtnPressed()
     {
+        //print(currentState);
         switch (currentState)
         {
             case gameStatus.next:
                 waveNumber += 1;
                 totalEnemies += waveNumber;
+                totalKilled = 0;
+                break;
+            case gameStatus.gameover:
+                totalEscaped = 0;
+                totalEscapedLbl.text = "Escaped " + totalEscaped + "/10";
+                totalMoney = 10;
+                totalMoneyLbl.text = totalMoney.ToString();
                 break;
             default:
                 totalEnemies = 3;
@@ -191,7 +204,7 @@ public class GameManager : Singleton<GameManager>
                 break;
         }
         DestroyAllEnemies();
-        totalEscaped = 0;
+        //totalEscaped = 0;
         roundEscaped = 0;
         currentWaveLbl.text = "Wave " + (waveNumber + 1);
         StartCoroutine(Spawn());

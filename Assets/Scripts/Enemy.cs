@@ -64,7 +64,7 @@ public class Enemy : MonoBehaviour
             target += 1;
         } else if (other.tag == "Finish")
         {
-            print(this.gameObject.name);
+            //print(this.gameObject.name);
             GameManager.Instance.RoundEscaped += 1;
             GameManager.Instance.TotalEscaped += 1;
             GameManager.Instance.UnregisterEnemy(this);
@@ -80,7 +80,7 @@ public class Enemy : MonoBehaviour
 
     public void OnEnemyHit(int hitpoints)
     {
-        print(healthPoints);
+        //print(healthPoints);
         if ((healthPoints - hitpoints) > 0)
         {
             healthPoints -= hitpoints;
