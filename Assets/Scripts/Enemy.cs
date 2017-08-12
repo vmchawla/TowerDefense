@@ -72,7 +72,14 @@ public class Enemy : MonoBehaviour
         } else if (other.tag == "projectile")
         {
             Projectile newp = other.gameObject.GetComponent<Projectile>();
-            OnEnemyHit(newp.AttaackStrength);
+            if (newp == null)
+            {
+                print("newp is null");
+            } else
+            {
+                OnEnemyHit(newp.AttaackStrength);
+            }
+
             Destroy(other.gameObject);
         }
         
@@ -84,6 +91,7 @@ public class Enemy : MonoBehaviour
         if ((healthPoints - hitpoints) > 0)
         {
             healthPoints -= hitpoints;
+            GameManager.Instance.AudioSource.PlayOneShot(SoundManager.Instance.Hit);
             anim.Play("Hurt");
         } else
         {
@@ -100,6 +108,7 @@ public class Enemy : MonoBehaviour
         GameManager.Instance.TotalKilled += 1;
         GameManager.Instance.AddMoney(rewardAmt);
         GameManager.Instance.IsWaveOver();
+        GameManager.Instance.AudioSource.PlayOneShot(SoundManager.Instance.Death);
 
     }
   

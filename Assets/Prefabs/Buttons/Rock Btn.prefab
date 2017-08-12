@@ -104,7 +104,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: selectedTower
+        m_MethodName: SelectedTower
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 114032451879219818}
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c0b02a4adebd3e44bc1685617553deb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerObject: {fileID: 1595413809739802, guid: a661ae4964337ce4daa3f9dcbc536ea6,
+  towerObject: {fileID: 114144650677345790, guid: a661ae4964337ce4daa3f9dcbc536ea6,
     type: 2}
   dragSprite: {fileID: 21300000, guid: 14a5806ccc0074646890772edc6a5102, type: 3}
   towerPrice: 5

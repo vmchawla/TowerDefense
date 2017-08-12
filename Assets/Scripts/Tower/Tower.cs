@@ -58,7 +58,8 @@ public class Tower : MonoBehaviour
         }
 
 
-	}
+
+    }
 
     private void FixedUpdate()
     {
@@ -72,6 +73,16 @@ public class Tower : MonoBehaviour
     {
         Projectile newProjectile = Instantiate(projectile);
         newProjectile.transform.localPosition = transform.localPosition;
+        if (newProjectile.ProjectileType == projectileType.arrow)
+        {
+            GameManager.Instance.AudioSource.PlayOneShot(SoundManager.Instance.Arrow);
+        } else if (newProjectile.ProjectileType == projectileType.fireball)
+        {
+            GameManager.Instance.AudioSource.PlayOneShot(SoundManager.Instance.Fireball);
+        } else
+        {
+            GameManager.Instance.AudioSource.PlayOneShot(SoundManager.Instance.Rock);
+        }
 
         if (targetEnemy == null)
         {
@@ -86,6 +97,7 @@ public class Tower : MonoBehaviour
 
     IEnumerator MoveProjectile(Projectile projectile)
     {
+        
         while (GetTargetDistance(targetEnemy) > 0.2f && projectile != null && targetEnemy != null && !targetEnemy.IsDead)
         {
             var dir = targetEnemy.transform.localPosition - transform.localPosition;
@@ -94,10 +106,19 @@ public class Tower : MonoBehaviour
             projectile.transform.localPosition = Vector2.MoveTowards(projectile.transform.localPosition, targetEnemy.transform.localPosition, 5f * Time.deltaTime);
             yield return null;
         }
-        if (projectile!= null | targetEnemy == null)
+        if (projectile != null && targetEnemy == null)
         {
-            Destroy(projectile);
+            Destroy(projectile.gameObject);
         }
+        if (projectile != null && projectile.GetComponent<Rigidbody2D>().velocity == Vector2.zero)
+        {
+            Destroy(projectile.gameObject);
+        }
+        if (projectile != null && projectile.GetComponent<Rigidbody2D>().velocity == Vector2.zero)
+        {
+            Destroy(projectile.gameObject);
+        }
+
     }
 
     private float GetTargetDistance(Enemy thisEnemy = null)

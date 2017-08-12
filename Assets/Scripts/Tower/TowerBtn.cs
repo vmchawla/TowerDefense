@@ -6,7 +6,7 @@ using UnityEngine.Assertions;
 public class TowerBtn : MonoBehaviour
 {
 
-    [SerializeField] private GameObject towerObject;
+    [SerializeField] private Tower towerObject;
     [SerializeField] private Sprite dragSprite;
     [SerializeField] private int towerPrice;
 
@@ -16,7 +16,7 @@ public class TowerBtn : MonoBehaviour
         Assert.IsNotNull(dragSprite);
     }
 
-    public GameObject TowerObject
+    public Tower TowerObject
     {
         get
         {
